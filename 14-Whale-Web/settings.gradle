@@ -1,0 +1,5 @@
+rootProject.name = '14-Whale-Web'
+include 'Whale-telegram-pars'
+include 'Whale-server'
+include 'PDB-work'
+

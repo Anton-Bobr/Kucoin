@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    container_name: my_p_g
+    image: postgres:14.0
+    environment:
+      POSTGRES_DB: "whale-coin"
+      POSTGRES_USER: "anton"
+      POSTGRES_PASSWORD: "111"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./psql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always
+
+  web:
+    container_name: my_tomcat
+    image: tomcat:9.0.54
+    environment:
+      POSTGRES_DB: "whale-coin"
+      POSTGRES_USER: "anton"
+      POSTGRES_PASSWORD: "111"
+    ports:
+      - 8081:8080
+    volumes:
+      - ./Whale-server/build/libs/Whale-server-1.0.war:/usr/local/tomcat/webapps/Whale-server-1.0.war
+    restart: always
