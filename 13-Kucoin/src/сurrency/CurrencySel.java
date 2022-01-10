@@ -1,6 +1,5 @@
 package сurrency;
 
-<<<<<<< HEAD
 import com.google.gson.*;
 
 import java.io.BufferedReader;
@@ -8,15 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-=======
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import com.google.gson.*;
 
->>>>>>> df7219b2d180cee4a68803b4b2c0cab92c47f395
 
 
 public class CurrencySel {
@@ -29,12 +20,12 @@ public class CurrencySel {
         System.out.println("");
         Scanner scan = new Scanner(System.in);
 
-        String MyCurrency ;
+        String myCurrency ;
         boolean i = true;
 
         do  {
-            MyCurrency = scan.nextLine();
-            if ((MyCurrency.equals("USD")) || (MyCurrency.equals("EUR"))) {  break; }
+            myCurrency = scan.nextLine();
+            if ((myCurrency.equals("USD")) || (myCurrency.equals("EUR"))) {  break; }
             else {
                 System.out.println("Вы неправильно ввели валюту");
                 System.out.print("Введите   USD или EUR");
@@ -42,7 +33,7 @@ public class CurrencySel {
             }
         } while ( i );
 
-        System.out.println("Вы выбрали " + MyCurrency);
+        System.out.println("Вы выбрали " + myCurrency);
         scan.close();
 
         CurrensyTipe Curr1 = new CurrensyTipe();
@@ -57,9 +48,9 @@ public class CurrencySel {
 
         CurrensyTipe Curr = new CurrensyTipe();
 
-        if (MyCurrency.equals(Curr1.Cur_Abbreviation)) {
+        if (myCurrency.equals(Curr1.Cur_Abbreviation)) {
             Curr = Curr1; }
-        if (MyCurrency.equals(Curr2.Cur_Abbreviation)) {
+        if (myCurrency.equals(Curr2.Cur_Abbreviation)) {
             Curr = Curr2; }
 
         String MyGetUrl = "https://www.nbrb.by/api/exrates/rates/" + Curr.Cur_ID;
