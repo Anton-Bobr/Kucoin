@@ -1,0 +1,3 @@
+kucoin/Kucoin.java
+ kucoin.Kucoin
+ kucoin.Kucoin$KukoinStat

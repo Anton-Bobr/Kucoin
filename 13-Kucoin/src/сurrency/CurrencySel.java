@@ -1,5 +1,6 @@
 package сurrency;
 
+<<<<<<< HEAD
 import com.google.gson.*;
 
 import java.io.BufferedReader;
@@ -7,6 +8,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+=======
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import com.google.gson.*;
+
+>>>>>>> df7219b2d180cee4a68803b4b2c0cab92c47f395
 
 
 public class CurrencySel {
