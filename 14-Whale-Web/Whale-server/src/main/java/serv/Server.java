@@ -52,11 +52,11 @@ class SimpleServer extends Thread {
     public void run() {
         try {
             handleRequest();
-        } catch (SQLException throwables) {
+        } catch (Exception throwables) {
             throwables.printStackTrace();
         }
     }
-    private void handleRequest() throws SQLException {
+    private void handleRequest() throws Exception {
         try {
             System.out.println("Server start");
 
@@ -78,7 +78,7 @@ class SimpleServer extends Thread {
             e.printStackTrace();
         }
     }
-    private String buildResponse (String clientRequest) throws SQLException {
+    private String buildResponse (String clientRequest) throws Exception {
         ServerAnswer serverAnswer;
         serverAnswer = handlersMap.get(clientRequest);
         if (serverAnswer!= null) {

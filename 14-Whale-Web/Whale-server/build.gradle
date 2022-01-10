@@ -11,10 +11,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
     // https://mvnrepository.com/artifact/javax/javaee-api
-    compileOnly group: 'javax', name: 'javaee-api', version: '8.0'
+    implementation group: 'javax', name: 'javaee-api', version: '8.0'
 
     // https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet-core
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: '3.0.0'
@@ -34,7 +34,7 @@ test {
 }
 
 war {
-//    webAppDirName = file('src/main/webapp')
+    webAppDirName = file("src/main/webapp")
 //    from 'src/rootContent' // adds a file-set to the root of the archive
 //    webInf { from 'src/additionalWebInf' } // adds a file-set to the WEB-INF dir.
 //    classpath fileTree('additionalLibs') // adds a file-set to the WEB-INF/lib dir.

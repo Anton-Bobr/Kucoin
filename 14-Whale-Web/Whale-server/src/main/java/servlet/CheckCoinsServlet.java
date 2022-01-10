@@ -1,6 +1,6 @@
 package servlet;
 
-import org.httprpc.sql.ResultSetAdapter;
+import org.json.JSONArray;
 import psql.WriterReaderPsql;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,51 +8,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "CheckCoinsServlet", urlPatterns = {"/checkCoins"})
 
 public class CheckCoinsServlet extends HttpServlet {
 
 
-    public static void main(String[] args) {
-
-        String dbRequest = "SELECT * FROM coins; ";
+    public static void main(String[] args) throws Exception {
+        String dbRequest = "SELECT coin FROM coins; ";
         WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
-        ResultSetAdapter resultSetAdapter = null;
+        JSONArray jsonArray = new JSONArray();
+
         try {
-            resultSetAdapter = writerReaderPsql.getDbAnswer(dbRequest);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            jsonArray = writerReaderPsql.getDbAnswerInJson(dbRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        int i = 1;
-        while (resultSetAdapter.iterator().hasNext()){
-
-            System.out.println("Db answer   " + "  " + resultSetAdapter.next());
-            i = i+1;
-        }
-
+        System.out.println(jsonArray);
     }
 
 
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
 
-//        String dbRequest = "SELECT * FROM coins; ";
-//        WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
-//        ResultSetAdapter resultSetAdapter = null;
-//        try {
-//            resultSetAdapter = writerReaderPsql.getDbAnswer(dbRequest);
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//        int i = 1;
-//        while (resultSetAdapter.iterator().hasNext()){
-//            System.out.println("Db answer   " + "  " + resultSetAdapter.next());
-//            i = i+1;
-//        }
+        String dbRequest = "SELECT coin FROM coins; ";
+        WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
+        JSONArray jsonArray = new JSONArray();
 
-        resp.getWriter().println("coins 123123");
+        try {
+            jsonArray = writerReaderPsql.getDbAnswerInJson(dbRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().println(jsonArray.toString());
+        response.getWriter().flush();
     }
 }

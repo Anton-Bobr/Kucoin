@@ -21,16 +21,7 @@ public class CheckWhaleMessagesServlet extends HttpServlet {
                 "AND amount BETWEEN 10000 AND 50000 AND time BETWEEN '2021-01-10 04:10:27' AND '2021-05-10 04:10:27';";
         WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
         ResultSetAdapter resultSetAdapter = null;
-        try {
-            resultSetAdapter = writerReaderPsql.getDbAnswer(dbRequest);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        while (resultSetAdapter.iterator().hasNext()){
-            int i = 1;
-            System.out.println("Db answer   " + "  " + resultSetAdapter.next());
-            i = i+1;
-        }
+
 
         resp.getWriter().println("{coins}");
     }

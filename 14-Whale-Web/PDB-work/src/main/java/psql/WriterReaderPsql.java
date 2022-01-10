@@ -1,30 +1,30 @@
 package psql;
 
-import org.httprpc.sql.ResultSetAdapter;
+import org.json.JSONArray;
 
 import java.sql.*;
 
 public class WriterReaderPsql {
-    static private String DB_CONNECTION = "jdbc:postgresql://localhost:5432/whale-coin";
+    static private String DB_CONNECTION = System.getenv().getOrDefault("DB_URL", "jdbc:postgresql://localhost:5432/whale-coin");
+//    static private String DB_CONNECTION = "jdbc:postgresql://my_p_g:5432/whale-coin";
     static private String DB_USER = "anton";
     static private String DB_PASSWORD = "111";
 
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
 
-        String dbRequest = "SELECT time, coin, amount, amount_usd FROM whale_message WHERE coin  IN ('ETH', 'BNB')\n" +
-                "AND amount BETWEEN 10000 AND 50000 AND time BETWEEN '2021-01-10 04:10:27' AND '2021-05-10 04:10:27';";
+        String dbRequest = "SELECT coin FROM coins; ";
         WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
-        ResultSetAdapter resultSetAdapter;
-        resultSetAdapter = writerReaderPsql.getDbAnswer(dbRequest);
-        while (resultSetAdapter.iterator().hasNext()){
-            int i = 1;
-            System.out.println("Db answer   " + "  " + resultSetAdapter.next());
-            i = i+1;
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            jsonArray = writerReaderPsql.getDbAnswerInJson(dbRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        //int i = resultSetAdapter.size();
-        //System.out.println(resultSetAdapter.iterator().);
+        System.out.println(jsonArray.toString());
+
     }
 
     private static Connection getDBConnection () {
@@ -52,9 +52,11 @@ public class WriterReaderPsql {
             ex.printStackTrace();
         }
     }
-    public ResultSetAdapter getDbAnswer (String sqlRequest) throws SQLException {
+    public JSONArray getDbAnswerInJson (String sqlRequest) throws Exception {
         Connection dbConnection = getDBConnection();
         Statement statement = dbConnection.createStatement();
-        return new ResultSetAdapter(statement.executeQuery(sqlRequest));
+        ResultSetToJsonExtractor resultSetToJsonExtractor = new ResultSetToJsonExtractor();
+
+        return resultSetToJsonExtractor.convertToJSON(statement.executeQuery(sqlRequest));
         }
 }

@@ -31,14 +31,16 @@ const buttonGetCoins = document.getElementById('button_get_coins')
 buttonGetCoins.onclick = async function () {
   let requestURL = 'http://localhost:8081/Whale-server-1.0/checkCoins';
   let responseGetCoin = await fetch(requestURL);
+  let jsonGetCoin;
   if (responseGetCoin.ok) {
-    let answer = await responseGetCoin.toString()
-    //let jsonGetCoin = await responseGetCoin.json();
-    //console.log("HTTP answer   " + jsonGetCoin.toString());
-    console.log("HTTP answer   " + answer);
+    jsonGetCoin = await responseGetCoin.json();
+    console.log("HTTP answer   " + jsonGetCoin.toString());
 
   } else {
     alert("Error HTTP" + responseGetCoin.status);
     console.log("Error HTTP" + responseGetCoin.status);
   }
+  let coin = JSON.parse(jsonGetCoin);
+  console.log(coin[1].toString());
+  console.log("message")
 }
