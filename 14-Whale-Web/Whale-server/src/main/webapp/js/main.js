@@ -34,13 +34,52 @@ buttonGetCoins.onclick = async function () {
   let jsonGetCoin;
   if (responseGetCoin.ok) {
     jsonGetCoin = await responseGetCoin.json();
-    console.log("HTTP answer   " + jsonGetCoin.toString());
-
   } else {
     alert("Error HTTP" + responseGetCoin.status);
     console.log("Error HTTP" + responseGetCoin.status);
   }
-  let coin = JSON.parse(jsonGetCoin);
-  console.log(coin[1].toString());
-  console.log("message")
+  console.log(jsonGetCoin[1].coin);
+  let parentElement = document.getElementById('coin_checkbox');
+  while (parentElement.firstChild) {
+    parentElement.removeChild(parentElement.firstChild);
+  }
+  jsonGetCoin.forEach(coins => {
+    let element_div = document.createElement('div')
+    element_div.id = 'div_coin';
+    element_div.className = 'checkbox_coin'
+
+    let element_input = document.createElement('input');
+    element_input.type = 'checkbox' ;
+    element_input.id = coins.coin;
+    element_input.className = 'coin_input'
+    element_input.checked = false;
+
+    let element_label = document.createElement('label')
+    element_label.for = coins.coin;
+    element_label.textContent = coins.coin;
+
+    parentElement.appendChild(element_div);
+    element_div.appendChild(element_input);
+    element_div.appendChild(element_label);
+  })
+}
+
+const buttonSelectAll = document.getElementById('select_all')
+
+buttonSelectAll.onclick = async function () {
+  let buttonStatus;
+
+  if (document.getElementById('select_all').textContent == 'SELECT ALL') {
+    buttonStatus = true
+    document.getElementById('select_all').textContent = 'CLEAR ALL'
+  } else {
+    buttonStatus = false
+    document.getElementById('select_all').textContent = 'SELECT ALL'
+  }
+  let myElements = document.getElementsByClassName('coin_input');
+  if (myElements != null) {
+    for (let i = 0; myElements.length - 1; i++) {
+      myElements[i].checked = buttonStatus;
+    }
+  }
 }
