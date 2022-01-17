@@ -28,9 +28,8 @@ public class CheckCoinsServlet extends HttpServlet {
     }
 
 
-
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String dbRequest = "SELECT coin FROM coins; ";
         WriterReaderPsql writerReaderPsql = new WriterReaderPsql();

@@ -32,7 +32,6 @@ public class WhaleMessageFromHTML {
             String messageFULL = i.getElementsByClass("text").text();
             WhaleMessage whaleMessage  = new WhaleMessage(messageID, messageTime, messageFULL);
             whaleMessageList.add(whaleMessage);
-            //System.out.println(whaleMessage);
         }
     }
 }

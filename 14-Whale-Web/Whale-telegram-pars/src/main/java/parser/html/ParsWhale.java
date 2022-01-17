@@ -10,9 +10,7 @@ import java.sql.SQLException;
 public class ParsWhale {
     public static void main(String[] args) throws IOException {
 
-        File file = new File("/home/anton/work/Kucoin/14-Whale-Web/Whale-telegram-pars/src/main/resources/whaleDownload/messages50.html");
-
-        //System.out.println(file.isFile());
+        File file = new File("/home/anton/work/Kucoin/14-Whale-Web/Whale-telegram-pars/src/main/resources/whaleDownload/messages55.html");
 
         WhaleMessageFromHTML whaleMessageFromHTML = new WhaleMessageFromHTML(file);
         System.out.println(whaleMessageFromHTML.getWhaleMessageList().size());
@@ -30,10 +28,6 @@ public class ParsWhale {
                     whaleMessage.getAmountUsd() + "' , '" +
                     whaleMessage.getMessageFULL() + "') " +
                     "ON CONFLICT (id) DO NOTHING;";
-
-            //System.out.println(sqlRequest1);
-            //System.out.println(sqlRequest2);
-
 
             WriterReaderPsql writerPsql = new WriterReaderPsql();
             try {
