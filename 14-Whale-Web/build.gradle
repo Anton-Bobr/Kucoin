@@ -1,6 +1,5 @@
 //plugins {
 //    id 'java'
-//    id 'war'
 //}
 
 allprojects {
@@ -8,26 +7,16 @@ allprojects {
 group 'org.example'
 version '1.0'
 }
+
+
 //repositories {
 //    mavenCentral()
 //}
-
-//dependencies {
-//    compile project('Whale-server')
-//    compile project('Whale-telegram-pars')
-//    //compile project('PDB-work')
 //
+//dependencies {
+//    // https://mvnrepository.com/artifact/org.eclipse.microprofile.config/microprofile-config-api
+//    implementation group: 'org.eclipse.microprofile.config', name: 'microprofile-config-api', version: '2.0'
+//
+//    // https://mvnrepository.com/artifact/io.smallrye.config/smallrye-config-core
+//    implementation group: 'io.smallrye.config', name: 'smallrye-config-core', version: '2.3.0'
 //}
-
-//test {
-//    useJUnitPlatform()
-//}
-
-/*war {
-    webAppDirectory = file('src/main/webapp')
-    from 'src/rootContent' // adds a file-set to the root of the archive
-    webInf { from 'src/additionalWebInf' } // adds a file-set to the WEB-INF dir.
-    classpath fileTree('additionalLibs') // adds a file-set to the WEB-INF/lib dir.
-    classpath configurations.moreLibs // adds a configuration to the WEB-INF/lib dir.
-    webXml = file('src/someWeb.xml') // copies a file to WEB-INF/web.xml
-}*/

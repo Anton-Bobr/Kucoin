@@ -1,33 +1,54 @@
 package psql;
 
-import org.json.JSONArray;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import java.sql.*;
 
 public class WriterReaderPsql {
-    static private String DB_CONNECTION = System.getenv().getOrDefault("DB_URL", "jdbc:postgresql://localhost:5432/whale-coin");
-//    static private String DB_CONNECTION = "jdbc:postgresql://my_p_g:5432/whale-coin";
-    static private String DB_USER = "anton";
-    static private String DB_PASSWORD = "111";
 
+//    @Inject
+//    @ConfigProperty(name = "psql.postgres.url", defaultValue = )
+//            private String DB_CONNECTION;
+
+//    SmallRyeConfig config = new SmallRyeConfigBuilder()
+//            .addDefaultInterceptors()
+//            .addDefaultSources()
+//            .build();
+
+//    private Config config = ConfigProvider.getConfig();
+//
+//    private String dbUrl = System.getenv().getOrDefault("DB_URL",
+//            config.getValue("psql.postgres.url", String.class));
+//    private String postgresUser = System.getenv().getOrDefault("POSTGRES_USER",
+//            config.getValue("psql.postgres.user", String.class)) ;
+//    private String postgresPassword = System.getenv().getOrDefault("POSTGRES_PASSWORD",
+//            config.getValue("psql.postgres.password", String.class));
 
     public static void main(String[] args) throws Exception {
 
-        String dbRequest = "SELECT coin FROM coins; ";
-        WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
-        JSONArray jsonArray = new JSONArray();
+        String dbRequest = "select array_to_json(array_agg(row_to_json(t))) from (SELECT coin FROM coins ) t";
 
+        WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
+        String responseFromDB = null;
         try {
-            jsonArray = writerReaderPsql.getDbAnswerInJson(dbRequest);
+            responseFromDB = writerReaderPsql.getDbAnswerInJson(dbRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(jsonArray.toString());
-
     }
 
-    private static Connection getDBConnection () {
+    private Connection getDBConnection() {
+
+        Config config = ConfigProvider.getConfig();
+
+        String dbUrl = System.getenv().getOrDefault("DB_URL",
+                config.getValue("psql.postgres.url", String.class));
+        String postgresUser = System.getenv().getOrDefault("POSTGRES_USER",
+                config.getValue("psql.postgres.user", String.class)) ;
+        String postgresPassword = System.getenv().getOrDefault("POSTGRES_PASSWORD",
+                config.getValue("psql.postgres.password", String.class));
+
         Connection dbConnection = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -36,7 +57,7 @@ public class WriterReaderPsql {
             e.printStackTrace();
         }
         try {
-            dbConnection =  DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+            dbConnection =  DriverManager.getConnection(dbUrl, postgresUser, postgresPassword);
             return dbConnection;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -52,11 +73,17 @@ public class WriterReaderPsql {
             ex.printStackTrace();
         }
     }
-    public JSONArray getDbAnswerInJson (String sqlRequest) throws Exception {
+    public String getDbAnswerInJson (String sqlRequest) throws Exception {
         Connection dbConnection = getDBConnection();
         Statement statement = dbConnection.createStatement();
-        ResultSetToJsonExtractor resultSetToJsonExtractor = new ResultSetToJsonExtractor();
+        ResultSet resultSet = statement.executeQuery(sqlRequest);
 
-        return resultSetToJsonExtractor.convertToJSON(statement.executeQuery(sqlRequest));
+        String responseFromDB = null;
+
+        while(resultSet.next()){
+            System.out.println(resultSet.getString(1));
+            responseFromDB = resultSet.getString(1);
+        }
+        return responseFromDB;
         }
 }

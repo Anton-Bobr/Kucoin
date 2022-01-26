@@ -87,6 +87,12 @@ buttonSelectAll.onclick = async function () {
 const buttonGetData = document.getElementById('get_data')
 
 buttonGetData.onclick = async function () {
+
+  let parentElement = document.getElementById('grid_table');
+  while (parentElement.firstChild) {
+    parentElement.removeChild(parentElement.firstChild);
+  }
+
   let dateStart = document.getElementById('date_first').value;
   let dateStop = document.getElementById('date_second').value;
   let checkedCoins = checkedCoinsArray()
@@ -115,16 +121,14 @@ buttonGetData.onclick = async function () {
     alert("Error HTTP" + responsePostWhaleMessages.status);
     console.log("Error HTTP" + responsePostWhaleMessages.status);
   }
-  let jsonKeysArray = Object.keys(jsonPostWhaleMessages[0]);
-  let parentElement = document.getElementById('grid_table');
 
-  while (parentElement.firstChild) {
-    parentElement.removeChild(parentElement.firstChild);
-  }
+  let jsonKeysArray = Object.keys(jsonPostWhaleMessages[0]);
+
   let table = document.createElement('table');
+  table.align = 'center'
+  table.border = '5'
   let thead = document.createElement('thead');
   let tbody = document.createElement('tbody');
-
   let rowHead = document.createElement('tr');
 
   jsonKeysArray.forEach(jsonKey => {
@@ -133,26 +137,19 @@ buttonGetData.onclick = async function () {
     rowHead.appendChild(tableColumn);
   })
   thead.appendChild(rowHead);
-
-  let rowBody = document.createElement('tr');
-
-  let temp = jsonPostWhaleMessages[1].get;
-
-  console.log()
+  table.appendChild(thead);
 
 
   for (let i = 0; i <= jsonPostWhaleMessages.length - 1; i++) {
+    let rowBody = document.createElement('tr');
     for (let j = 0; j <= jsonKeysArray.length - 1; j++) {
       let tableColumn = document.createElement('td');
-      console.log(jsonPostWhaleMessages[i].key['coin'];
-      //tableColumn.textContent = jsonPostWhaleMessages[i].key[jsonKeysArray[j]];
-      //rowBody.appendChild(tableColumn);
+      tableColumn.textContent = jsonPostWhaleMessages[i][jsonKeysArray[j]];
+      rowBody.appendChild(tableColumn);
     }
     tbody.appendChild(rowBody);
+    table.appendChild(tbody);
   }
-
-  table.appendChild(thead);
-  table.appendChild(tbody);
   parentElement.appendChild(table);
 }
 

@@ -10,11 +10,11 @@ public class CoinsServerAnswer extends ServerAnswer{
     @Override
     public String buildAnswer(String clientRequest) throws Exception {
 
-        String dbRequest = "SELECT * FROM coins; ";
+        String dbRequest = "select array_to_json(array_agg(row_to_json(t))) from (SELECT coin FROM coins ) t";
         WriterReaderPsql writerReaderPsql = new WriterReaderPsql();
          ;
-        JSONArray jsonArray = writerReaderPsql.getDbAnswerInJson(dbRequest);
+        String Answer = writerReaderPsql.getDbAnswerInJson(dbRequest);
 
-        return "Coins  " + jsonArray.toString();
+        return "Coins  " + Answer;
     }
 }

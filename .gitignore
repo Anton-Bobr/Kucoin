@@ -17,4 +17,5 @@
 14-Whale-Web/Whale-server/build/
 14-Whale-Web/Whale-telegram-pars/build/
 14-Whale-Web/Whale-telegram-pars/src/main/resources/whaleDownload/
-
+14-Whale-Web/Whale-telegram-pars/src/main/resources/META-INF/
+14-Whale-Web/Whale-telegram-pars/src/main/resources/telegram.txt

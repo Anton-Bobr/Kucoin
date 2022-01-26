@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: "111"
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
-      - ./psql:/var/lib/postgresql/data
+      - ./PDB-work/psql:/var/lib/postgresql/data
     ports:
       - 5432:5432
     restart: always
@@ -30,3 +30,18 @@ services:
     volumes:
       - ./Whale-server/build/libs/Whale-server-1.0.war:/usr/local/tomcat/webapps/Whale-server-1.0.war
     restart: always
+
+#  telegram_client:
+#    container_name: my_telegram
+#    image: 8-jre-bullseye
+#    environment:
+#      MY_API_ID: "111111"
+#      MY_API_HASH: "111111"
+#      MY_PHONE: "111111"
+#      ID_WHALE_ALERT: "-1001309043988"
+#      ADMIN_ID: "1111111"
+#    ports:
+#      - 5005:5005
+#    volumes:
+#      - ./Whale-server/build/libs/Whale-server-1.0.war:/usr/local/tomcat/webapps/Whale-server-1.0.war
+#    restart: always

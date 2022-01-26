@@ -34,3 +34,6 @@ username    CheckWhale_bot
 
 HTTP API    1880735240:AAGtOYrnIBg_9etVxcyZBTMUrAN7MQa-0no
 
+Whale Alert
+ID #-1309043988
+
