@@ -31,17 +31,14 @@ services:
       - ./Whale-server/build/libs/Whale-server-1.0.war:/usr/local/tomcat/webapps/Whale-server-1.0.war
     restart: always
 
-#  telegram_client:
-#    container_name: my_telegram
-#    image: 8-jre-bullseye
+#  java_app:
+#    container_name: my_tg_client
+#    image: my-tg-client
 #    environment:
-#      MY_API_ID: "111111"
-#      MY_API_HASH: "111111"
-#      MY_PHONE: "111111"
+#      MY_API_ID: ""
+#      MY_API_HASH: ""
+#      MY_PHONE: ""
 #      ID_WHALE_ALERT: "-1001309043988"
-#      ADMIN_ID: "1111111"
 #    ports:
-#      - 5005:5005
-#    volumes:
-#      - ./Whale-server/build/libs/Whale-server-1.0.war:/usr/local/tomcat/webapps/Whale-server-1.0.war
+#      - 5004:5004
 #    restart: always

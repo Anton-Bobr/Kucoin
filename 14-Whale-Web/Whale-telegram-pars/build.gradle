@@ -1,10 +1,9 @@
+
 plugins {
     id 'java'
-//    id 'war'
-    }
-
-//group 'org.example'
-//version '1.0'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.bmuschko.docker-remote-api' version '6.1.4'
+}
 
 repositories {
     mavenCentral()
@@ -12,37 +11,41 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.14.3'
 
     implementation project(':PDB-work')
-    //testRuntime project(':Whale-telegram-pars')
 
-    dependencies {
-        compile files("/home/anton/work/lib/td/tdlib/bin/org/drinkless/tdlib")
-    }
+    // import the BOM
+    implementation platform('it.tdlight:tdlight-java-bom:2.8.0.5')
+    //implementation 'it.tdlight:tdlight-java-bom:2.8.0.5'
 
-    dependencies {
-        // import the BOM
-        implementation platform('it.tdlight:tdlight-java-bom:2.8.0.5')
 
-        // do not specify the versions on the dependencies below!
-        implementation 'it.tdlight:tdlight-java'
-        implementation 'it.tdlight:tdlight-natives-linux-amd64'
-        // Include other native versions that you want, for example for windows, osx, ...
+    // do not specify the versions on the dependencies below!
+    implementation 'it.tdlight:tdlight-java'
+    implementation 'it.tdlight:tdlight-natives-linux-amd64'
+    // Include other native versions that you want, for example for windows, osx, ...
 
-        compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
+    // https://mvnrepository.com/artifact/io.smallrye.config/smallrye-config-core
+    implementation group: 'io.smallrye.config', name: 'smallrye-config-core', version: '2.3.0'
 
-        // https://mvnrepository.com/artifact/io.smallrye.config/smallrye-config-core
-        implementation group: 'io.smallrye.config', name: 'smallrye-config-core', version: '2.3.0'
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
 
-    }
 }
 
-test {
-    useJUnitPlatform()
+jar {
+    manifest {
+        attributes ("Implementation-Title": "Gradle",
+                "Implementation-Version": archiveVersion,
+                "Main-Class": "telegram.api.MyTelegramSimpleClient")}
 }
+
+import com.bmuschko.gradle.docker.tasks.image.*
+
+task buildMyAppImage(type: DockerBuildImage) {
+    inputDir = file('./')
+    images.add('my-tg-client')
+}
+
 

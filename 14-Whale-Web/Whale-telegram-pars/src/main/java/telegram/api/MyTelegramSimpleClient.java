@@ -2,12 +2,12 @@ package telegram.api;
 
 import it.tdlight.client.*;
 import it.tdlight.client.AuthenticationData;
-import it.tdlight.client.CommandHandler;
 import it.tdlight.client.SimpleTelegramClient;
 import it.tdlight.client.TDLibSettings;
 import it.tdlight.common.Init;
 import it.tdlight.common.utils.CantLoadLibrary;
 import it.tdlight.jni.TdApi;
+import org.apache.log4j.BasicConfigurator;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import parser.html.WhaleMessage;
@@ -36,6 +36,8 @@ public class MyTelegramSimpleClient {
         long myPhone = Long.parseLong(System.getenv().getOrDefault("MY_PHONE",
                 config.getValue("telegram.my.api.phone", String.class)));
 
+        BasicConfigurator.configure();
+
         // Initialize TDLight native libraries
         Init.start();
 
@@ -60,8 +62,8 @@ public class MyTelegramSimpleClient {
         // Add an example update handler that prints every received message
         client.addUpdateHandler(TdApi.UpdateNewMessage.class, MyTelegramSimpleClient::onUpdateNewMessage);
 
-        // Add an example command handler that stops the bot
-        client.addCommandHandler("stop", new StopCommandHandler());
+//        // Add an example command handler that stops the bot
+//        client.addCommandHandler("stop", new StopCommandHandler());
 
         // Start the client
         client.start(authenticationData);
@@ -103,25 +105,7 @@ public class MyTelegramSimpleClient {
         }
     }
 
-    /**
-     * Close the bot if the /stop command is sent by the administrator
-     */
-    private static class StopCommandHandler implements CommandHandler {
 
-        @Override
-        public void onCommand(TdApi.Chat chat, TdApi.MessageSender commandSender, String arguments) {
-            // Check if the sender is the admin
-            if (isAdmin(commandSender)) {
-                // Stop the client
-                System.out.println("Received stop command. closing...");
-                client.sendClose();
-            }
-        }
-    }
-
-    /**
-     * Print the bot status
-     */
     private static void onUpdateAuthorizationState(TdApi.UpdateAuthorizationState update) {
         TdApi.AuthorizationState authorizationState = update.authorizationState;
         if (authorizationState instanceof TdApi.AuthorizationStateReady) {
@@ -135,15 +119,4 @@ public class MyTelegramSimpleClient {
         }
     }
 
-    /**
-     * Check if the command sender is admin
-     */
-    private static boolean isAdmin(TdApi.MessageSender sender) {
-        Config config = ConfigProvider.getConfig();
-        int adminId = Integer.parseInt(System.getenv().getOrDefault("ADMIN_ID",
-                config.getValue("telegram.admin.id", String.class)));
-
-        TdApi.MessageSender admin = new TdApi.MessageSenderUser(adminId);
-        return sender.equals(admin);
-    }
 }
